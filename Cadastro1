@@ -1,0 +1,91 @@
+package br.edu.ifba.cadastros;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Cadastros<T> {
+
+    private T[] contas;
+    private int tamanho = 0;
+
+    @SuppressWarnings("unchecked")
+    public Cadastros() {
+        this.contas = (T[]) new Object[3];
+    }
+
+    public void adicionar(T c) {
+        aumentaVetor();
+        contas[tamanho] = c;
+        this.tamanho++;
+    }
+
+    public void adicionarPorPosicao(T c, int posicao) {
+        aumentaVetor();
+        if (!verificaPosicaoAdicionar(posicao)) {
+            throw new IllegalArgumentException("Fora de posicao!!!");
+        }
+        for (int cont = this.tamanho - 1; cont >= posicao; cont--) {
+            this.contas[cont + 1] = this.contas[cont];
+        }
+        this.contas[posicao] = c;
+        this.tamanho++;
+    }
+
+    public void remover(int posicao) {
+        if (!verificaPosicao(posicao)) {
+            throw new IllegalArgumentException("Posicao vazia!!!");
+        }
+        for (int cont = posicao; cont < this.tamanho - 1; cont++) {
+            this.contas[cont] = this.contas[cont + 1];
+        }
+        this.contas[this.tamanho - 1] = null;
+        this.tamanho--;
+    }
+
+    public T procurarConta(int posicao) {
+        if (!verificaPosicao(posicao)) {
+            throw new IllegalArgumentException("Posicao invalida!!!");
+        }
+        return this.contas[posicao];
+    }
+
+    private void aumentaVetor() {
+        if (this.tamanho == this.contas.length) {
+            T[] newContas = (T[]) new Object[this.contas.length * 2];
+            System.arraycopy(this.contas, 0, newContas, 0, this.contas.length);
+            this.contas = newContas;
+        }
+    }
+
+    private boolean verificaPosicao(int posicao) {
+        return posicao >= 0 && posicao < this.tamanho;
+    }
+
+    private boolean verificaPosicaoAdicionar(int posicao) {
+        return posicao >= 0 && posicao <= this.tamanho;
+    }
+
+    public int size() {
+        return this.tamanho;
+    }
+
+    public List<T> listar() {
+        List<T> filledItems = new ArrayList<>();
+        for (int i = 0; i < tamanho; i++) {
+            filledItems.add(this.contas[i]);
+        }
+        return filledItems;
+    }
+
+    // Método main para teste
+    public static void main(String[] args) {
+        Cadastros<String> cadastros = new Cadastros<>();
+        cadastros.adicionar("Item 1");
+        cadastros.adicionar("Item 2");
+        cadastros.adicionar("Item 3");
+
+        for (String item : cadastros.listar()) {
+            System.out.println(item);
+        }
+    }
+}
