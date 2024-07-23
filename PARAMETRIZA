@@ -1,0 +1,20 @@
+package resultaod;
+
+import br.edu.ifba.cadastros.Cadastros;
+
+public class resultado{
+
+public static void main(String[] args) {
+	
+        Cadastros<String> cadastros = new Cadastros<>();
+        
+        cadastros.adicionar("nome1");
+        cadastros.adicionar("nome2");
+        cadastros.adicionar("nome3");
+
+        for (String item : cadastros.listar()) {
+            System.out.println(item);
+            
+        }
+    }
+}
