@@ -1,0 +1,90 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #faf8ef;
+}
+
+#container {
+    display: flex;
+    flex-direction: row;
+}
+
+#info-container {
+    margin-right: 450px;
+}
+
+#info-container h2 {
+    font-size: 55px;
+    margin-top: 150px;
+    color: #776e65;
+}
+
+#info-container p {
+    font-size: 25px;
+    color: #776e65;
+    width: 400px;
+    margin-top: 20px;
+}
+
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    margin: 0;
+    padding: 20px 0;
+    color: #776e65;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(4, 100px);
+    grid-template-rows: repeat(4, 100px);
+    gap: 10px;
+    background-color: #bbada0;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.grid-cell {
+    width: 100px;
+    height: 100px;
+    background-color: #cdc1b4;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 50px;
+    font-weight: bold;
+    color: #776e65;
+}
+
+.grid-cell[data-value="2"] {
+    background-color: #0a06ff;
+    color: #2f00ff;
+}
+
+.grid-cell[data-value="4"] {
+    background-color: #ede0c8;
+    color: #f9f6f2;
+}
+
+.grid-cell[data-value="8"] {
+    background-color: #f2b179;
+    color: #f9f6f2;
+}
+
+#score-container {
+    margin-top: 20px;
+}
+
+#score {
+    font-size: 50px;
+    color: #776e65;
+}
