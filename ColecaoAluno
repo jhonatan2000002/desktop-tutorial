@@ -1,0 +1,56 @@
+package prova2;
+
+import java.util.ArrayList;
+
+public class ColecaoAluno {
+    private ArrayList<Aluno> alunos;
+
+    public ColecaoAluno() {
+        this.alunos = new ArrayList<>();
+    }
+
+    public void cadastrarAluno(String nome, String rg, int idade, String curso) {
+        Aluno a = new Aluno();
+        a.setNome(nome);
+        a.setRg(rg);
+        a.setIdade(idade);
+        a.setCurso(curso);
+        alunos.add(a);
+    }
+
+    public void cadastrarAlunoPorPosicao(int posicao, String nome, String rg, int idade, String curso) {
+        if (posicao >= 0 && posicao <= alunos.size()) {
+            Aluno a = new Aluno();
+            a.setNome(nome);
+            a.setRg(rg);
+            a.setIdade(idade);
+            a.setCurso(curso);
+            alunos.add(posicao, a);
+        } else {
+            System.out.println("Posição ocupada.");
+        }
+    }
+
+    public void excluirAlunoPorPosicao(int posicao) {
+        if (posicao >= 0 && posicao < alunos.size()) {
+            alunos.remove(posicao);
+        } else {
+            System.out.println("Posição vazia.");
+        }
+    }
+
+    public void procurarAlunoPorPosicao(int posicao) {
+        if (posicao >= 0 && posicao < alunos.size()) {
+            Aluno a = alunos.get(posicao);
+            System.out.println("Aluno{nome='" + a.getNome() + "', rg='" + a.getRg() +  "', idade=" + a.getIdade() + ", curso='" + a.getCurso() + "'}");
+        } else {
+            System.out.println("Posição vazia.");
+        }
+    }
+
+    public void listarAlunos() {
+        for (Aluno a : alunos) {
+            System.out.println("Aluno{nome='" + a.getNome() + "', rg='" + a.getRg() + "', idade=" + a.getIdade() + ", curso='" + a.getCurso() + "'}");
+        }
+    }
+}

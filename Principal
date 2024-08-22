@@ -1,0 +1,56 @@
+package prova2;
+
+public class Principal {
+    public static void main(String[] args) {
+    
+      
+        ColecaoAlunoArray colecaoAlunoArray = new ColecaoAlunoArray(15);
+
+        
+        colecaoAlunoArray.cadastrarAluno("Igor", "843584735", 20, "informática");
+        colecaoAlunoArray.cadastrarAluno("guilherme", "213563621", 20, "eletro");
+
+        colecaoAlunoArray.cadastrarAlunoPorPosicao(0, "josé", "238172837", 20, "bio");
+
+        System.out.println("\n Listar alunos:");
+        colecaoAlunoArray.listarAlunos();
+
+        System.out.println("\n Aluno na posição 1 : ");
+        colecaoAlunoArray.procurarAlunoPorPosicao(2);
+
+        System.out.println("\n Excluindo aluno na posição escolhida:");
+        colecaoAlunoArray.excluirAlunoPorPosicao(1);
+
+        System.out.println("\n Lista de Alunos atualizada :");
+        colecaoAlunoArray.listarAlunos();
+        
+        
+       
+        ColecaoAluno colecaoAluno = new ColecaoAluno();
+
+       
+        colecaoAluno.cadastrarAluno("Jhonatan", "143278749", 20, "Informática");
+        colecaoAluno.cadastrarAluno("Micaelly", "8374281", 20, "bio");
+
+     
+        colecaoAluno.cadastrarAlunoPorPosicao(1, "Hellen", "48578435704", 20, "eletro");
+
+       
+        System.out.println(" \n Listar Alunos :");
+        colecaoAluno.listarAlunos();
+
+       
+        System.out.println("\n Aluno na posição escolhida :");
+        colecaoAluno.procurarAlunoPorPosicao(1);
+
+      
+        System.out.println("\n Excluindo aluno na posição escolhida:");
+        colecaoAluno.excluirAlunoPorPosicao(0);
+
+       
+        System.out.println("\n Lista de Alunos atualizada :");
+        colecaoAluno.listarAlunos();
+
+
+    }
+}

@@ -1,0 +1,68 @@
+package prova2;
+
+public class ColecaoAlunoArray {
+    private Aluno[] alunos;
+    private int cont;
+
+    public ColecaoAlunoArray(int capacidade) {
+        this.alunos = new Aluno[capacidade];
+        this.cont = 0;
+    }
+
+    public void cadastrarAluno(String nome, String rg, int idade, String curso) {
+        if (cont < alunos.length) {
+            Aluno a = new Aluno();
+            a.setNome(nome);
+            a.setRg(rg);
+            a.setIdade(idade);
+            a.setCurso(curso);
+            alunos[cont] = a;
+            cont++;
+        } 
+    }
+
+    public void cadastrarAlunoPorPosicao(int posicao, String nome, String rg, int idade, String curso) {
+        if (cont < alunos.length && posicao >= 0 && posicao <= cont) {
+            for (int i = cont; i > posicao; i--) {
+                alunos[i] = alunos[i - 1];
+            }
+            Aluno a = new Aluno();
+            a.setNome(nome);
+            a.setRg(rg);
+            a.setIdade(idade);
+            a.setCurso(curso);
+            alunos[posicao] = a;
+            cont++;
+        } else {
+            System.out.println("Posição vazia");
+        }
+    }
+
+    public void excluirAlunoPorPosicao(int posicao) {
+        if (posicao >= 0 && posicao < cont) {
+            for (int i = posicao; i < cont - 1; i++) {
+                alunos[i] = alunos[i + 1];
+            }
+            alunos[cont - 1] = null;
+            cont--;
+        } else {
+            System.out.println("Posição vazia.");
+        }
+    }
+
+    public void procurarAlunoPorPosicao(int posicao) {
+        if (posicao >= 0 && posicao < cont) {
+            Aluno aluno = alunos[posicao];
+            System.out.println("Aluno{nome='" + aluno.getNome() + "', rg='" + aluno.getRg() + "', idade=" + aluno.getIdade() + ", curso='" + aluno.getCurso() + "'}");
+        } else {
+            System.out.println("Posição vazia.");
+        }
+    }
+
+    public void listarAlunos() {
+        for (int i = 0; i < cont; i++) {
+            Aluno a = alunos[i];
+            System.out.println("Aluno{nome='" + a.getNome() + "', rg='" + a.getRg() +  "', idade=" + a.getIdade() + ", curso='" + a.getCurso() + "'}");
+        }
+    }
+}
