@@ -1,0 +1,127 @@
+CREATE DATABASE GestaoImobiliaria;
+USE GestaoImobiliaria;
+
+
+CREATE TABLE Proprietario (
+    id_proprietario INT PRIMARY KEY AUTO_INCREMENT,
+    nome_propietario VARCHAR(100) NOT NULL,
+    cpf_propietario VARCHAR(11) NOT NULL UNIQUE,
+    telefone_propietario VARCHAR(15)
+);
+
+CREATE TABLE Imovel (
+    id_imovel INT PRIMARY KEY AUTO_INCREMENT,
+    endereco_imovel VARCHAR(100) NOT NULL,
+    tipo_imovel VARCHAR(100) NOT NULL,
+    valor_imovel DECIMAL(10, 2) NOT NULL,
+    status_imovel VARCHAR(100) NOT NULL,
+    id_proprietario INT,
+    FOREIGN KEY (id_proprietario) REFERENCES Proprietario(id_proprietario)
+);
+
+CREATE TABLE Inquilino (
+    id_inquilino INT PRIMARY KEY AUTO_INCREMENT,
+    nome_inquilino VARCHAR(100) NOT NULL,
+    cpf_inquilino VARCHAR(11) NOT NULL ,
+    telefone_inquilino VARCHAR(15)
+);
+
+CREATE TABLE ContratoLocacao (
+    id_contrato INT PRIMARY KEY AUTO_INCREMENT,
+    data_inicio VARCHAR(45) NOT NULL,
+    data_fim VARCHAR(45) NOT NULL,
+    valor_aluguel DECIMAL(10, 2) NOT NULL,
+    id_imovel INT,
+    id_inquilino INT,
+    FOREIGN KEY (id_imovel) REFERENCES Imovel(id_imovel),
+    FOREIGN KEY (id_inquilino) REFERENCES Inquilino(id_inquilino)
+);
+
+CREATE TABLE Pagamentos (
+    id_pagamento INT PRIMARY KEY AUTO_INCREMENT,
+    data_pagamento VARCHAR(45) NOT NULL,
+    valor_pagamento DECIMAL(10, 2) NOT NULL,
+    id_contrato INT,
+    FOREIGN KEY (id_contrato) REFERENCES ContratoLocacao(id_contrato)
+);
+
+
+INSERT INTO Proprietario (nome_propietario, cpf_propietario, telefone_propietario) VALUES
+('Lucas', '98765432101', '(75) 99854-1201'),
+('Bruna', '65432198702', '(75) 99475-2311'),
+('Tiago', '54637281903', '(75) 99121-5478'),
+('Juliana', '16382947504', '(75) 99321-6703'),
+('Fernanda ', '72836459105', '(75) 99789-3456');
+
+INSERT INTO Imovel (endereco_imovel, tipo_imovel, valor_imovel, status_imovel, id_proprietario) VALUES
+('Avenida Z, 65', 'Casa', 320000.00, 'disponível', 1),
+('Rua Y, 13', 'Apartamento', 520000.00, 'alugado', 2),
+('Alameda W, 11', 'Comercial', 830000.00, 'disponível', 3),
+('Travessa X, 21', 'Cobertura', 450000.00, 'vendido', 4),
+('Estrada V, 17', 'Casa', 680000.00, 'disponível', 5);
+
+INSERT INTO Inquilino (nome_inquilino, cpf_inquilino, telefone_inquilino) VALUES
+('Carlos ', '10928374656', '(75) 99657-4098'),
+('Renata ', '23897465123', '(75) 99788-1235'),
+('Leandro ', '32487921344', '(75) 99896-4567'),
+('Gabriela ', '98734215678', '(75) 99234-6789'),
+('Fernando ', '17263549850', '(75) 99547-3210');
+
+INSERT INTO ContratoLocacao (data_inicio, data_fim, valor_aluguel, id_imovel, id_inquilino) VALUES
+('05/03/2023', '05/03/2025', 2200.00, 2, 1),
+('20/06/2022', '20/06/2024', 1600.00, 1, 2),
+('15/08/2021', '15/08/2023', 3500.00, 3, 3),
+('01/10/2023', '01/10/2024', 1900.00, 4, 4),
+('25/12/2020', '25/12/2023', 2750.00, 5, 5);
+
+INSERT INTO Pagamentos (data_pagamento, valor_pagamento, id_contrato) VALUES
+('05/03/2023', 2200.00, 1),
+('20/06/2022', 1600.00, 2),
+('15/08/2021', 3500.00, 3),
+('01/10/2023', 1900.00, 4),
+('25/12/2020', 2750.00, 5);
+
+-- CONSULTAR OS PROPRIETARIOS DOS IMOVEIS 
+SELECT p.nome_propietario, i.endereco_imovel, i.tipo_imovel, i.valor_imovel
+FROM Proprietario p
+JOIN Imovel i ON p.id_proprietario = i.id_proprietario;
+
+-- CONSULTAR OS INQUILINOS
+SELECT i.nome_inquilino, c.data_inicio, c.data_fim, c.valor_aluguel
+FROM Inquilino i
+JOIN ContratoLocacao c ON i.id_inquilino = c.id_inquilino;
+
+-- CONSULTAR VALORES ALTOS
+SELECT *
+FROM ContratoLocacao
+WHERE valor_aluguel > (SELECT AVG(valor_aluguel) FROM ContratoLocacao);
+
+-- CONSULTAR DONOS DE IMOVEIS ALUGADOS
+SELECT nome_propietario
+FROM Proprietario
+WHERE id_proprietario IN (SELECT id_proprietario
+                          FROM Imovel
+                          WHERE status_imovel = 'alugado');
+
+DELIMITER //
+CREATE PROCEDURE ListarContratos()
+BEGIN
+    SELECT * FROM ContratoLocacao;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+CREATE PROCEDURE ListarImoveisProprietario(IN id INT)
+BEGIN
+    SELECT endereco_imovel, tipo_imovel, valor_imovel, status_imovel
+    FROM Imovel
+    WHERE id_proprietario = id;
+END //
+DELIMITER ;
+
+
+CALL ListarContratos();
+
+
+CALL ListarImoveisProprietario(2);
